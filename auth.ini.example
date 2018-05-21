@@ -2,5 +2,6 @@
 reddit_client_id=
 reddit_client_secret=
 reddit_password=
-reddit_user_agent=Call-All-Bot By J_C___
 reddit_username=
+reddit_subreddit=
+reddit_limit=
