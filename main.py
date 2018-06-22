@@ -69,6 +69,14 @@ if __name__ == "__main__":
         logging.warning("Reddit API encountered an error. %s" % e)
         time.sleep(30)
         pass
+    except praw.exceptions.ResponseException as e:
+        logging.warning("Reddit encountered a response error. %s" % e)
+        time.sleep(30)
+        pass
+    except Exception as e:
+        logging.critical("Uncaught error: %s" % e)
+        time.sleep(30)
+        pass
     finally:
-        push = pb.push_note("SCRIPT Down", "J_C___ Hiatus Script is Down!")
+        push = pb.push_note("SCRIPT Down", "J_C___ Flair-your-posts Script is Down!")
         update_files(posts_replied)
