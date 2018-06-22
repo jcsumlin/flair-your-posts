@@ -9,7 +9,7 @@ import praw
 from pushbullet import Pushbullet
 
 coloredlogs.install()
-logging.basicConfig(filename='bot.log', level=logging.INFO, format="%(asctime)s:%(levelname)s:%(message)s")
+logging.basicConfig(filename='bot.log', level=logging.INFO)
 config = configparser.ConfigParser()
 config.read('auth.ini')  # All my usernames and passwords for the api
 pb = Pushbullet(str(config.get('auth', 'pb_key')))
@@ -20,7 +20,6 @@ reddit = praw.Reddit(client_id=config.get('auth', 'reddit_client_id'),
                      user_agent="Flair your posts script made by u/J_C___",
                      username=config.get('auth', 'reddit_username'))
 bot_message = "\r\r^(I am a script. If I did something wrong, ) [^(let me know)](/message/compose/?to=J_C___&subject=ALERT+Flair+your+post+bot)"
-logging.info("Posting as: " + str(reddit.user.me()))
 SUBREDDIT = config.get('auth', 'reddit_subreddit')
 LIMIT = int(config.get('auth', 'reddit_limit'))
 
@@ -56,6 +55,7 @@ def update_files(posts_replied):
 if __name__ == "__main__":
     try:
         logging.info("------Starting: Flair Your Post Bot------")
+        logging.info("Posting as: %s" % reddit.user.me())
         while True:
             reply_bot()
     except KeyboardInterrupt:
