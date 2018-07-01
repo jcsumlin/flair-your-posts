@@ -80,8 +80,7 @@ if __name__ == "__main__":
                 logging.critical("Uncaught error: %s" % e)
                 time.sleep(30)
                 pass
-            finally:
-                update_files(posts_replied)
     finally:
+        update_files(posts_replied)
         push = pb.push_note("SCRIPT Down", "J_C___ Flair-your-posts Script is Down!")
 
