@@ -73,13 +73,13 @@ if __name__ == "__main__":
                 logging.info("------Starting: Flair Your Post Bot------")
                 logging.info("Posting as: %s" % reddit.user.me())
                 reply_bot()
-            except KeyboardInterrupt:
-                update_files(posts_replied)
-                logging.warning('Script interrupted')
             except Exception as e:
                 logging.critical("Uncaught error: %s" % e)
                 time.sleep(30)
                 pass
+    except KeyboardInterrupt:
+        update_files(posts_replied)
+        logging.warning('Script interrupted')
     finally:
         update_files(posts_replied)
         push = pb.push_note("SCRIPT Down", "J_C___ Flair-your-posts Script is Down!")
