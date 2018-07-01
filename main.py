@@ -32,12 +32,26 @@ else:
        posts_replied = f.read()
        posts_replied = posts_replied.split("\n")
        posts_replied = list(filter(None, posts_replied))
+# If the posts_replied text file dosn't exist, create it and initialize the empty list.
+if not os.path.isfile("warning_posts.txt"):
+    warning_posts = []
+# If the file does exist import the contents into a list
+else:
+    with open("warning_posts.txt", "r") as f:
+        warning_posts = f.read()
+        warning_posts = warning_posts.split("\n")
+        warning_posts = list(filter(None, warning_posts))
 
 rule_1 = "\r\r>**All posts must be assigned a flair**. If you don't flair your post, it will be removed. You can flair on mobile by posting it in your title, such as [Theory] Toffee is Star's brother. [Here is a list of flair options](https://www.reddit.com/r/StarVStheForcesofEvil/wiki/flairs). If your post is removed by the flair bot, **do NOT repost it**: [message the mods](https://www.reddit.com/message/compose?to=%2Fr%2FStarVStheForcesofEvil&subject=&message=) and we'll approve it. Unflaired posts are subject to removal without warning at any time."
 def reply_bot():
     subreddit = reddit.subreddit(SUBREDDIT)
     new_posts = subreddit.new(limit=LIMIT)
     for submission in new_posts:
+        if (submission.link_flair_text is None) and (datetime.utcnow() - datetime.fromtimestamp(submission.created_utc) >= timedelta(minutes=10)) and submission.id not in warning_posts:
+            submission.reply("Hey there u/" + submission.author.name + ", Don't forget to flair your posts!" + bot_message)
+            logging.info('Submission warned:' + str(submission.id))
+            warning_posts.append(submission.id)
+            update_files(warning_posts)
         if (submission.link_flair_text is None) and (datetime.utcnow() - datetime.fromtimestamp(submission.created_utc) >= timedelta(minutes=15)) and submission.id not in posts_replied:
             submission.reply("Hey there u/" + submission.author.name + "! Your post has been removed in accordance with rule #1 of this subreddit." + rule_1 + bot_message)
             submission.mod.remove()
@@ -46,9 +60,9 @@ def reply_bot():
             update_files(posts_replied)
 
 
-def update_files(posts_replied):
+def update_files(list):
     with open("posts_replied.txt", "w") as f:
-        for x in posts_replied:
+        for x in list:
             f.write(x + "\n")
     logging.info("Progress File Successfully Updated!")
 
