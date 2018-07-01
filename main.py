@@ -54,17 +54,20 @@ def update_files(posts_replied):
 
 if __name__ == "__main__":
     try:
-        logging.info("------Starting: Flair Your Post Bot------")
-        logging.info("Posting as: %s" % reddit.user.me())
         while True:
-            reply_bot()
-    except KeyboardInterrupt:
-        update_files(posts_replied)
-        logging.warning('Script interrupted')
-    except Exception as e:
-        logging.critical("Uncaught error: %s" % e)
-        time.sleep(30)
-        pass
+            try:
+                logging.info("------Starting: Flair Your Post Bot------")
+                logging.info("Posting as: %s" % reddit.user.me())
+                reply_bot()
+            except KeyboardInterrupt:
+                update_files(posts_replied)
+                logging.warning('Script interrupted')
+            except Exception as e:
+                logging.critical("Uncaught error: %s" % e)
+                time.sleep(30)
+                pass
+            finally:
+                update_files(posts_replied)
     finally:
         push = pb.push_note("SCRIPT Down", "J_C___ Flair-your-posts Script is Down!")
-        update_files(posts_replied)
+
