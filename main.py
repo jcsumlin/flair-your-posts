@@ -29,9 +29,9 @@ if not os.path.isfile("posts_replied.txt"):
 # If the file does exist import the contents into a list
 else:
     with open("posts_replied.txt", "r") as f:
-       posts_replied = f.read()
-       posts_replied = posts_replied.split("\n")
-       posts_replied = list(filter(None, posts_replied))
+        posts_replied = f.read()
+        posts_replied = posts_replied.split("\n")
+        posts_replied = list(filter(None, posts_replied))
 # If the posts_replied text file dosn't exist, create it and initialize the empty list.
 if not os.path.isfile("warning_posts.txt"):
     warning_posts = []
@@ -68,10 +68,10 @@ def update_files(list):
 
 if __name__ == "__main__":
     try:
+        logging.info("------Starting: Flair Your Post Bot------")
+        logging.info("Posting as: %s" % reddit.user.me())
         while True:
             try:
-                logging.info("------Starting: Flair Your Post Bot------")
-                logging.info("Posting as: %s" % reddit.user.me())
                 reply_bot()
             except Exception as e:
                 logging.critical("Uncaught error: %s" % e)
