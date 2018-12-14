@@ -17,14 +17,14 @@ init(os.environ['pushover_key'])
 pushover = Client(os.environ['pushover_client_key'])
 # pushover = Client(config.get('auth', 'pushover_client_key'))
 
-reddit = praw.Reddit(client_id=config.get('auth', 'reddit_client_id'),
-                     client_secret=config.get('auth', 'reddit_client_secret'),
-                     password=config.get('auth', 'reddit_password'),
+reddit = praw.Reddit(client_id=os.environ['reddit_client_id'],
+                     client_secret=os.environ['reddit_client_secret'],
+                     password=os.environ['reddit_password'],
                      user_agent="Flair your posts script made by u/J_C___",
-                     username=config.get('auth', 'reddit_username'))
+                     username=os.environ['reddit_username'])
 bot_message = "\r\r^(I am a script. If I did something wrong, ) [^(let me know)](/message/compose/?to=J_C___&subject=ALERT+Flair+your+post+bot)"
-SUBREDDIT = config.get('auth', 'reddit_subreddit')
-LIMIT = int(config.get('auth', 'reddit_limit'))
+SUBREDDIT = os.environ['reddit_subreddit']
+LIMIT = int(os.environ['reddit_limit'])
 
 # If the posts_replied text file dosn't exist, create it and initialize the empty list.
 if not os.path.isfile("posts_replied.txt"):
