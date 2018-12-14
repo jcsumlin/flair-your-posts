@@ -6,8 +6,8 @@ from loguru import logger
 
 import praw
 from pushover import init, Client
-
-logger.add(f'file_{str(datetime.now().month)+"-"+str(datetime.now().day)+"-"+str(datetime.now().year)}.log', rotation="12:00")
+log_date = str(datetime.now().month)+"-"+str(datetime.now().day)+"-"+str(datetime.now().year)
+logger.add('file_{}.log'.format(log_date), rotation="12:00")
 
 
 config = configparser.ConfigParser()
