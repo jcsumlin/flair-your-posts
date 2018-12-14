@@ -1,4 +1,4 @@
-import configparser
+# import configparser
 import os
 import time
 from datetime import timedelta, datetime
@@ -10,10 +10,12 @@ log_date = str(datetime.now().month)+"-"+str(datetime.now().day)+"-"+str(datetim
 logger.add('file_{}.log'.format(log_date), rotation="12:00")
 
 
-config = configparser.ConfigParser()
-config.read('auth.ini')  # All my usernames and passwords for the api
-init(config.get('auth', 'pushover_key'))
-pushover = Client(config.get('auth', 'pushover_client_key'))
+# config = configparser.ConfigParser()
+# config.read('auth.ini')  # All my usernames and passwords for the api
+init(os.environ['pushover_key'])
+# init(config.get('auth', 'pushover_key'))
+pushover = Client(os.environ['pushover_client_key'])
+# pushover = Client(config.get('auth', 'pushover_client_key'))
 
 reddit = praw.Reddit(client_id=config.get('auth', 'reddit_client_id'),
                      client_secret=config.get('auth', 'reddit_client_secret'),
