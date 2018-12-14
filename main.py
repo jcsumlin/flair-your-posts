@@ -1,5 +1,4 @@
 import configparser
-import logger
 import os
 import time
 from datetime import timedelta, datetime
@@ -8,15 +7,13 @@ from loguru import logger
 import praw
 from pushover import init, Client
 
-logger.add(f"file_{datetime.now()}.log", rotation="12:00")
+logger.add(f'file_{str(datetime.now().month)+"-"+str(datetime.now().day)+"-"+str(datetime.now().year)}.log', rotation="12:00")
 
 
 config = configparser.ConfigParser()
 config.read('auth.ini')  # All my usernames and passwords for the api
-init(os.environ['pushover_key'])
-# init(config.get('auth', 'pushover_key'))
-pushover = Client(os.environ['pushover_client_key'])
-# pushover = Client(config.get('auth', 'pushover_client_key'))
+init(config.get('auth', 'pushover_key'))
+pushover = Client(config.get('auth', 'pushover_client_key'))
 
 reddit = praw.Reddit(client_id=config.get('auth', 'reddit_client_id'),
                      client_secret=config.get('auth', 'reddit_client_secret'),
@@ -46,7 +43,7 @@ else:
         warning_posts = warning_posts.split("\n")
         warning_posts = list(filter(None, warning_posts))
 
-rule_1 = "\r\r>**All posts must be assigned a flair**. If you don't flair your post, it will be removed. You can flair on mobile by posting it in your title, such as [Theory] Toffee is Star's brother. [Here is a list of flair options](https://www.reddit.com/r/StarVStheForcesofEvil/wiki/flairs). If your post is removed by the flair bot, **do NOT repost it**: [message the mods](https://www.reddit.com/message/compose?to=%2Fr%2FStarVStheForcesofEvil&subject=&message=) and we'll approve it. Unflaired posts are subject to removal without warning at any time."
+rule_1 = "\r\r>**All posts must be assigned a flair**. If you don't flair your post, it will be removed. You can flair on mobile by posting it in your title, such as [Theory] Toffee is Star's brother. [Here is a list of flair options](https://www.reddit.com/r/StarVStheForcesofEvil/wiki/flairs). If your post is removed by the flair bot, **do NOT repost it**: [message the mods](https://www.reddit.com/message/compose?to=%2Fr%2FStarVStheForcesofEvil&subject=&message=) OR reply to this comment and we'll approve it. Unflaired posts are subject to removal without warning at any time."
 
 @logger.catch
 def reply_bot():
